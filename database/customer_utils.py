@@ -1,4 +1,4 @@
-from .database import get_customer_list, get_customer, post_customer, delete_customer
+from .database import get_customer_list, get_customer, post_customer, delete_customer, create_favorite_product
 import json
 
 def query_get_customer(pk:str) -> str:
@@ -40,11 +40,22 @@ def query_delete_customer(pk:str) -> str:
     '''
     return query_string
 
+def query_create_favorite_product(pk_customer:str, pk_product:str) -> str:
+    query_string = f'''
+    INSERT INTO CustomerFavoriteProduct (customer_id, product_id)
+    VALUES ('{pk_customer}', '{pk_product}')
+    RETURNING customer_id;
+    '''
+    return query_string
 
-def resolve_routes_post_customer(path:str, data:json):
+def normalize_path(path:str) -> list:
     splitted_path = path.split('/')
     splitted_path = list(filter(lambda x: x != '', splitted_path))
     path_length = len(splitted_path)
+    return splitted_path, path_length
+
+def resolve_routes_post_customer(path:str, data:json):
+    splitted_path, path_length = normalize_path(path)
 
     if path_length == 2 and splitted_path[0] == 'cliente' and splitted_path[-1] == 'create':
         query = query_post_customer(data)
@@ -55,7 +66,24 @@ def resolve_routes_post_customer(path:str, data:json):
         }
         return response
     
-    elif path_length == 3 and splitted_path[0] == 'cliente' and splitted_path[-1] == 'update':
+    elif path_length == 4 and splitted_path[0] == 'cliente' and splitted_path[2] == 'favorite-products' and splitted_path[-1] == 'create':
+        try:
+            int(splitted_path[1])
+            query = query_create_favorite_product(splitted_path[1])
+            redirect_path = create_favorite_product(query)
+            response = {
+                "action": "delete",
+                "redirect_path": redirect_path
+            }
+            return response
+        except ValueError:
+            return 404
+    return 404
+
+def resolve_routes_put_customer(path:str, data:dict):
+    splitted_path, path_length = normalize_path(path)
+
+    if path_length == 3 and splitted_path[0] == 'cliente' and splitted_path[-1] == 'update':
         try:
             int(splitted_path[1])
             query = query_put_customer(splitted_path[1], data)
@@ -67,8 +95,12 @@ def resolve_routes_post_customer(path:str, data:json):
             return response
         except ValueError:
             return 404
+    return 404
 
-    elif path_length == 3 and splitted_path[0] == 'cliente' and splitted_path[-1] == 'delete':
+def resolve_routes_delete_customer(path:str):
+    splitted_path, path_length = normalize_path(path)
+
+    if path_length == 3 and splitted_path[0] == 'cliente' and splitted_path[-1] == 'delete':
         try:
             int(splitted_path[1])
             query = query_delete_customer(splitted_path[1])
@@ -80,12 +112,10 @@ def resolve_routes_post_customer(path:str, data:json):
             return response
         except ValueError:
             return 404
-
+    return 404
 
 def resolve_routes_get_customer(path:str):
-    splitted_path = path.split('/')
-    splitted_path = list(filter(lambda x: x != '', splitted_path))
-    path_length = len(splitted_path)
+    splitted_path, path_length = normalize_path(path)
 
     if path_length == 1 and splitted_path[0] == 'cliente':
         # get customer list
@@ -94,7 +124,7 @@ def resolve_routes_get_customer(path:str):
 
         return serialize_get_customer_list(query_result)
 
-    elif path_length == 2 and splitted_path[-1] != 'favorites-list':
+    elif path_length == 2 and splitted_path[0] == 'cliente' and splitted_path[-1] != 'favorites-list':
         # Get customer
         customer_pk = splitted_path[-1]
         query = query_get_customer(customer_pk)

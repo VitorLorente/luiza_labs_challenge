@@ -78,3 +78,17 @@ def delete_customer(query:str):
     cursor = connection.cursor()
     cursor.execute(query)
     connection.commit()
+
+def create_favorite_product(query:str) -> str:
+    connection = psycopg2.connect(user="postgres_luiza_labs",
+                                  password="desafio_luiza_labs",
+                                  host="127.0.0.1",
+                                  port="5432",
+                                  database="luiza_labs_db")
+
+    cursor = connection.cursor()
+    cursor.execute(query)
+    customer_id = cursor.fetchone()[0]
+    connection.commit()
+    redirect_path = f'/cliente/{customer_id}/favorite-products'
+    return redirect_path
