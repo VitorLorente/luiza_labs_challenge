@@ -8,6 +8,7 @@ from utils.queries import (
     query_delete_customer,
     query_create_favorite_product
 )
+from utils.serializers import serialize_get_customer_list, serialize_get_customer
 
 def normalize_path(path:str) -> list:
     splitted_path = path.split('/')
@@ -97,24 +98,3 @@ def resolve_routes_get_customer(path:str):
         # get favorite-list
         pass
 
-
-def serialize_get_customer_list(query_result):
-    serialized_data = [
-        {
-            'id': customer[0],
-            'name': customer[1],
-            'email': customer[2]
-        }
-        for customer in query_result
-    ]
-
-    return json.dumps(serialized_data)
-
-def serialize_get_customer(query_result):
-    serialized_data = {
-        'id': query_result[0],
-        'name': query_result[1],
-        'email': query_result[2]
-    }
-
-    return json.dumps(serialized_data)
