@@ -52,5 +52,4 @@ def get_customer(query):
     cursor = connection.cursor()
     cursor.execute(query)
     customer = cursor.fetchone()
-    print(customer)
     return customer
