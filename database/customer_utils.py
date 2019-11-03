@@ -1,4 +1,4 @@
-from .database import get_customer_list
+from .database import get_customer_list, get_customer
 import json
 
 def query_get_customer(pk:str) -> str:
@@ -23,7 +23,8 @@ def resolve_routes_get_customer(path:str):
         # Get customer
         customer_pk = splited_path[-1]
         query = query_get_customer(customer_pk)
-        pass
+        query_result = get_customer(query)
+        return serialize_get_customer(query_result)
     else:
         # get favorite-list
         pass
@@ -38,5 +39,14 @@ def serialize_get_customer_list(query_result):
         }
         for customer in query_result
     ]
+
+    return json.dumps(serialized_data)
+
+def serialize_get_customer(query_result):
+    serialized_data = {
+        'id': query_result[0],
+        'name': query_result[1],
+        'email': query_result[2]
+    }
 
     return json.dumps(serialized_data)

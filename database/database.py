@@ -41,3 +41,16 @@ def get_customer_list(query):
     cursor.execute(query)
     customers = cursor.fetchall()
     return customers
+
+def get_customer(query):
+    connection = psycopg2.connect(user="postgres_luiza_labs",
+                                  password="desafio_luiza_labs",
+                                  host="127.0.0.1",
+                                  port="5432",
+                                  database="luiza_labs_db")
+
+    cursor = connection.cursor()
+    cursor.execute(query)
+    customer = cursor.fetchone()
+    print(customer)
+    return customer
