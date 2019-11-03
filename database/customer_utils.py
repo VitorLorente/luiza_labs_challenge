@@ -18,6 +18,43 @@ def query_post_customer(data:json) -> str:
     '''
     return query_string
 
+def query_put_customer(pk:str, data:dict) -> str:
+    query_string = '''
+    UPDATE customer
+    SET '''
+    data_items = list(data.items())
+    print(data_items[0])
+    for i in range(len(data_items)-1):
+        query_string += f"{data_items[i][0]} = '{data_items[i][1]}', "
+    
+    query_string += f"""{data_items[-1][0]} = '{data_items[-1][1]}'"""
+    query_string += f'''
+    WHERE id = {pk}
+    RETURNING id;
+    '''
+    return query_string
+
+
+def resolve_routes_post_customer(path:str, data:json):
+    splited_path = path.split('/')
+    splited_path = list(filter(lambda x: x != '', splited_path))
+    path_length = len(splited_path)
+
+    if path_length == 2 and splited_path[0] == 'cliente' and splited_path[-1] == 'create':
+        query = query_post_customer(data)
+        redirect_path = post_customer(query)
+        return redirect_path
+    
+    elif path_length == 3 and splited_path[0] == 'cliente' and splited_path[-1] == 'update':
+        try:
+            int(splited_path[1])
+            query = query_put_customer(splited_path[1], data)
+            redirect_path = post_customer(query)
+            return redirect_path
+        except ValueError:
+            return 404
+
+
 def resolve_routes_get_customer(path:str):
     splited_path = path.split('/')
     splited_path = list(filter(lambda x: x != '', splited_path))

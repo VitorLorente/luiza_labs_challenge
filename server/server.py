@@ -1,5 +1,5 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from database.customer_utils import resolve_routes_get_customer, query_post_customer
+from database.customer_utils import resolve_routes_get_customer, resolve_routes_post_customer
 from database.database import post_customer
 import json
 
@@ -20,7 +20,7 @@ class Server(BaseHTTPRequestHandler):
         self.data_string = self.rfile.read(int(self.headers['Content-Length']))
 
         data = json.loads(self.data_string)
-        redirect_path = post_customer(query_post_customer(data))
+        redirect_path = resolve_routes_post_customer(self.path, data)
 
         self.send_response(200)
         self.send_header('location', redirect_path)
