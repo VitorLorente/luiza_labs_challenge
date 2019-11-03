@@ -18,14 +18,21 @@ class Server(BaseHTTPRequestHandler):
 
     def do_POST(self):
         self.data_string = self.rfile.read(int(self.headers['Content-Length']))
+        data = ''
+        if self.data_string:
+            data = json.loads(self.data_string)
+        result = resolve_routes_post_customer(self.path, data)
 
-        data = json.loads(self.data_string)
-        redirect_path = resolve_routes_post_customer(self.path, data)
-
-        self.send_response(200)
-        self.send_header('location', redirect_path)
-        self.end_headers()
-        self.wfile.write(json.dumps(data).encode(encoding='utf_8'))
+        if result['action'] == 'create' or result['action'] == 'update':
+            self.send_response(200)
+            self.send_header('localtion', result['redirect_path'])
+            self.end_headers()
+            self.wfile.write(json.dumps(data).encode(encoding='utf_8'))
+        elif result['action'] == 'delete':
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            self.wfile.write(bytes(result['status'].encode('utf-8')))
 
 
 httpd = HTTPServer(('localhost', 8080), Server)
