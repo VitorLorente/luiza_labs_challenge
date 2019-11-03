@@ -1,52 +1,14 @@
-from .database import get_customer_list, get_customer, post_customer, delete_customer, create_favorite_product
 import json
-
-def query_get_customer(pk:str) -> str:
-    query_string = f'''
-    SELECT * FROM customer WHERE id = {pk}; 
-    '''
-    return query_string
-
-def query_get_customer_list() -> str:
-    return 'SELECT * FROM customer;'
-
-def query_post_customer(data:json) -> str:
-    query_string = f'''
-    INSERT INTO customer(name, email)
-    VALUES  ('{data['name']}', '{data['email']}')
-    RETURNING id;
-    '''
-    return query_string
-
-def query_put_customer(pk:str, data:dict) -> str:
-    query_string = '''
-    UPDATE customer
-    SET '''
-    data_items = list(data.items())
-    for i in range(len(data_items)-1):
-        query_string += f"{data_items[i][0]} = '{data_items[i][1]}', "
-    
-    query_string += f"""{data_items[-1][0]} = '{data_items[-1][1]}'"""
-    query_string += f'''
-    WHERE id = {pk}
-    RETURNING id;
-    '''
-    return query_string
-
-def query_delete_customer(pk:str) -> str:
-    query_string = f'''
-    DELETE FROM customer
-    WHERE id = {pk}
-    '''
-    return query_string
-
-def query_create_favorite_product(pk_customer:str, pk_product:str) -> str:
-    query_string = f'''
-    INSERT INTO CustomerFavoriteProduct (customer_id, product_id)
-    VALUES ('{pk_customer}', '{pk_product}')
-    RETURNING customer_id;
-    '''
-    return query_string
+from database.database import get_customer_list, get_customer, post_customer, delete_customer, create_favorite_product
+from utils.queries import (
+    query_get_customer,
+    query_get_customer_list,
+    query_post_customer,
+    query_put_customer,
+    query_delete_customer,
+    query_create_favorite_product
+)
+from utils.serializers import serialize_get_customer_list, serialize_get_customer
 
 def normalize_path(path:str) -> list:
     splitted_path = path.split('/')
@@ -136,24 +98,3 @@ def resolve_routes_get_customer(path:str):
         # get favorite-list
         pass
 
-
-def serialize_get_customer_list(query_result):
-    serialized_data = [
-        {
-            'id': customer[0],
-            'name': customer[1],
-            'email': customer[2]
-        }
-        for customer in query_result
-    ]
-
-    return json.dumps(serialized_data)
-
-def serialize_get_customer(query_result):
-    serialized_data = {
-        'id': query_result[0],
-        'name': query_result[1],
-        'email': query_result[2]
-    }
-
-    return json.dumps(serialized_data)
