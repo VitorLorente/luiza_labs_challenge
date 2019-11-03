@@ -92,13 +92,13 @@ def resolve_routes_put_customer(path:str, data:dict):
             return response
         except ValueError:
             response = {
-                "action": "create",
+                "action": "update",
                 "message": "Not found.",
                 "status": 404
             }
             return response
     response = {
-        "action": "create",
+        "action": "update",
         "message": "Not found.",
         "status": 404
     }
@@ -120,13 +120,13 @@ def resolve_routes_delete_customer(path:str):
             return response
         except ValueError:
             response = {
-                "action": "create",
+                "action": "delete",
                 "message": "Not found.",
                 "status": 404
             }
             return response
     response = {
-        "action": "create",
+        "action": "delete",
         "message": "Not found.",
         "status": 404
     }
@@ -139,21 +139,64 @@ def resolve_routes_get_customer(path:str):
         # get customer list
         query = query_get_customer_list()
         query_result = get_customer_list(query)
+        response = {
+            "action": "get",
+            "data": serialize_get_customer_list(query_result),
+            "status": 200
+        }
 
-        return serialize_get_customer_list(query_result)
+        return response
 
-    elif path_length == 2 and splitted_path[0] == 'cliente' and splitted_path[-1] != 'favorites-list':
-        # Get customer
-        customer_pk = splitted_path[-1]
-        query = query_get_customer(customer_pk)
-        query_result = get_customer(query)
+    elif path_length == 2 and splitted_path[0] == 'cliente':
+        try:
+            # Get customer
+            int(splitted_path[1])
+            customer_pk = splitted_path[-1]
+            query = query_get_customer(customer_pk)
+            query_result = get_customer(query)
 
-        return serialize_get_customer(query_result)
+            response = {
+                "action": "get",
+                "data": serialize_get_customer(query_result),
+                "status": 200
+            }
+
+            return response
+
+        except ValueError:
+            response = {
+                "action": "get",
+                "data": "Not found.",
+                "status": 404
+            }
+            return response
 
     elif path_length == 3 and splitted_path[0] == 'cliente' and splitted_path[-1] == 'favorites-list':
         # get favorite-list
-        customer_pk = splitted_path[1]
-        query = query_get_favorites_products(customer_pk)
-        query_result = get_favorites_products(query)
+        try:
+            int(splitted_path[1])
+            customer_pk = splitted_path[1]
+            query = query_get_favorites_products(customer_pk)
+            query_result = get_favorites_products(query)
+            response = {
+                "action": "get",
+                "data": serialize_get_favorites_products(query_result),
+                "status": 200
+            }
 
-        return serialize_get_favorites_products(query_result)
+            return response
+
+        except ValueError:
+            response = {
+                "action": "get",
+                "data": "Not found.",
+                "status": 404
+            }
+            return response
+
+    response = {
+        "action": "get",
+        "data": "Not found.",
+        "status": 404
+    }
+    return response
