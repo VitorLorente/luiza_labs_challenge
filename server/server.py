@@ -1,10 +1,10 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from routes import routes
+from database.customer_utils import resolve_routes_get_customer
 
 class Server(BaseHTTPRequestHandler):
     
     def do_GET(self):
-        result = routes.get(self.path, None)
+        result = resolve_routes_get_customer(self.path)
         if result:
             self.send_response(200)
         else:
