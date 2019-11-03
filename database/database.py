@@ -30,7 +30,7 @@ import psycopg2
 #             print("PostgreSQL connection is closed")
 
 
-def get_customer_list(query):
+def get_customer_list(query) -> list:
     connection = psycopg2.connect(user="postgres_luiza_labs",
                                   password="desafio_luiza_labs",
                                   host="127.0.0.1",
@@ -42,7 +42,7 @@ def get_customer_list(query):
     customers = cursor.fetchall()
     return customers
 
-def get_customer(query):
+def get_customer(query) -> tuple:
     connection = psycopg2.connect(user="postgres_luiza_labs",
                                   password="desafio_luiza_labs",
                                   host="127.0.0.1",
@@ -53,3 +53,17 @@ def get_customer(query):
     cursor.execute(query)
     customer = cursor.fetchone()
     return customer
+
+def post_customer(query) -> str:
+    connection = psycopg2.connect(user="postgres_luiza_labs",
+                                  password="desafio_luiza_labs",
+                                  host="127.0.0.1",
+                                  port="5432",
+                                  database="luiza_labs_db")
+
+    cursor = connection.cursor()
+    cursor.execute(query)
+    customer_id = cursor.fetchone()[0]
+    connection.commit()
+    redirect_path = f'/cliente/{customer_id}'
+    return redirect_path
