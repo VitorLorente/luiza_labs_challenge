@@ -26,7 +26,6 @@ class Server(BaseHTTPRequestHandler):
         self.send_header('location', redirect_path)
         self.end_headers()
         self.wfile.write(json.dumps(data).encode(encoding='utf_8'))
-        print(redirect_path)
 
 
 httpd = HTTPServer(('localhost', 8080), Server)
