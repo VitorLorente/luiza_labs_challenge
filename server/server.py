@@ -1,6 +1,6 @@
 import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from database.customer_utils import (
+from utils.routes import (
     resolve_routes_get_customer,
     resolve_routes_post_customer,
     resolve_routes_put_customer,

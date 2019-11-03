@@ -1,5 +1,5 @@
 import json
-from .database import get_customer_list, get_customer, post_customer, delete_customer, create_favorite_product
+from database.database import get_customer_list, get_customer, post_customer, delete_customer, create_favorite_product
 from utils.queries import (
     query_get_customer,
     query_get_customer_list,
