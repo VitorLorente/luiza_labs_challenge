@@ -18,12 +18,16 @@ try:
         );""")
 
     cursor.execute("""CREATE TABLE CustomerFavoriteProduct(
-        customer_id = integer NOT NULL,
-        product_id = varchar (37) NOT NULL,
-        CONSTRAINT unique_product_per_customer PRIMARY KEY(customer_id, product_id);
+        id_customer integer NOT NULL REFERENCES Customer(id),
+        id_product varchar (37) NOT NULL,
+        CONSTRAINT unique_product_per_customer PRIMARY KEY(id_customer, id_product)
         );""")
 
 
+    for i in range(0, 1000):
+        cursor.execute(f"INSERT INTO Customer(name, email) VALUES ('Cliente {i+1}', 'cliente{i+1}@luizalabs.com');")
+
+    print('Tabelas criadas.')
 
     # Produto
     # cursor.execute("""CREATE TABLE Product(
@@ -36,8 +40,6 @@ try:
     #     );""")
 
     # Criando 10 clientes iniciais
-    for i in range(0, 1000):
-        cursor.execute(f"INSERT INTO Customer(name, email) VALUES ('Cliente {i+1}', 'cliente{i+1}@luizalabs.com');")
 
     # Criando 5 produtos
     # cursor.execute("""INSERT INTO Product(title, brand, image, price, reviewScore)

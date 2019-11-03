@@ -39,8 +39,17 @@ def query_delete_customer(pk:str) -> str:
 
 def query_create_favorite_product(pk_customer:str, pk_product:str) -> str:
     query_string = f'''
-    INSERT INTO CustomerFavoriteProduct (customer_id, product_id)
+    INSERT INTO CustomerFavoriteProduct (id_customer, id_product)
     VALUES ('{pk_customer}', '{pk_product}')
-    RETURNING customer_id;
+    RETURNING id_customer;
+    '''
+    return query_string
+
+def query_get_favorites_products(pk_customer:str) -> str:
+    query_string = f'''
+    SELECT id_product, id_customer, name, email
+    FROM CustomerFavoriteProduct
+    INNER JOIN customer ON customer.id = id_customer
+    WHERE id_customer = {pk_customer};
     '''
     return query_string
