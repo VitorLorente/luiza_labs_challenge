@@ -31,6 +31,38 @@ Em seguida, instale as dependências no ambiente virtual:
 
 
 ### Criando tabelas no banco de dados
+
 A partir de um shell na raiz do projeto, rode o comando:
 `python manage.py migrate <customers_number>`,
 onde `<customer_number>` é um valor inteiro opcional, representando o número de clientes a serem criados. Caso o argumento não seja passado para o comando, a tabela de clientes não será populada.
+
+
+## Testando a aplicação
+
+
+### Servidor
+
+Para subir o servidor, rode o seguinte comando a partir de um shell na raiz do projeto:
+`python manage.py serverup`
+
+
+### URL's
+
+As seguintes URL's estão disponiveis:
+1. `127.0.0.1:8080/cliente/` -> Listagem de clientes  (GET);
+2. `127.0.0.1:8080/cliente/<cliente_id>/` -> Detalhes do cliente de ID <cliente_id> (GET);
+3. `127.0.0.1:8080/cliente/create/` -> Cria um novo cliente (POST). Formato do json esperado:
+    ```
+    {
+      "name": "nome_do_cliente",
+      "email": "email_do_cliente"
+    }
+    ``` ;
+4. `127.0.0.1:8080/cliente/<cliente_id>/update/` -> Atualiza informações de um cliente (PUT). Formato do json esperado:
+    ```
+    {
+      "name": "novo_nome",
+      "email: "novo_email"
+    }
+    ``` 
+(é possível atualizar somente um dos dois atribuytos também);
