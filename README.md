@@ -49,20 +49,29 @@ Para subir o servidor, rode o seguinte comando a partir de um shell na raiz do p
 ### URL's
 
 As seguintes URL's estão disponiveis:
-1. `127.0.0.1:8080/cliente/` -> Listagem de clientes  (GET);
-2. `127.0.0.1:8080/cliente/<cliente_id>/` -> Detalhes do cliente de ID <cliente_id> (GET);
-3. `127.0.0.1:8080/cliente/create/` -> Cria um novo cliente (POST). Formato do json esperado:
+1. `127.0.0.1:8080/cliente/` -> Listagem de clientes  (método GET);
+2. `127.0.0.1:8080/cliente/<cliente_id>/` -> Detalhes do cliente de ID <cliente_id> (método GET);
+3. `127.0.0.1:8080/cliente/create/` -> Cria um novo cliente (método POST). Formato do json esperado:
     ```
     {
       "name": "nome_do_cliente",
       "email": "email_do_cliente"
     }
-    ``` ;
-4. `127.0.0.1:8080/cliente/<cliente_id>/update/` -> Atualiza informações de um cliente (PUT). Formato do json esperado:
+    ```
+4. `127.0.0.1:8080/cliente/<cliente_id>/update/` -> Atualiza informações de um cliente (método PUT). Formato do json esperado:
     ```
     {
       "name": "novo_nome",
       "email: "novo_email"
     }
     ``` 
-(é possível atualizar somente um dos dois atribuytos também);
+    (é possível atualizar somente um dos dois atributos também);
+5. `127.0.0.1:8080/cliente/<cliente_id>/delete/` -> Deleta o cliente de id <cliente_id> (método DELETE);
+6. `127.0.0.1:8080/cliente/<cliente_id>/favorites-list/` -> Exibe lista de produtos favoritos do cliente de id <cliente_id> (método GET);
+7. `127.0.0.1:8080/cliente/<cliente_id>/favorites-list/create/` -> Adiciona um produto à lista de produtos do cliente de id <cliente_id> (método POST). Formato do json esperato:
+    ```
+    {
+        "id_product": "product_id_from_challeng_api"
+    }
+    ```
+    (O id do produto deve ser condizente com os produtos da api do desafio técnico da Luiza Labs. Para mais informações, consultar https://gist.github.com/Bgouveia/9e043a3eba439489a35e70d1b5ea08ec );
