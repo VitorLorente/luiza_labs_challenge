@@ -58,9 +58,10 @@ class Server(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(bytes(result['message'].encode('utf-8')))
 
-httpd = HTTPServer(('localhost', 8080), Server)
-print('\nListening at 8080\n\t.... \nWaiting for requests.')
-try:
-    httpd.serve_forever()
-except KeyboardInterrupt:
-        print('\nBye!')
+def runserver(port):
+    httpd = HTTPServer(('localhost', port), Server)
+    print(f'\nListening at {port}\n\t.... \nWaiting for requests.')
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+            print('\nBye!')
