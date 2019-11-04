@@ -50,28 +50,39 @@ Para subir o servidor, rode o seguinte comando a partir de um shell na raiz do p
 
 As seguintes URL's estão disponiveis:
 1. Listagem de clientes  (método GET)-> `127.0.0.1:8080/cliente/` ;
+
 2. Detalhes do cliente de ID <cliente_id> (método GET)-> `127.0.0.1:8080/cliente/<cliente_id>/` ;
+
 3. Criar um novo cliente (método POST) -> `127.0.0.1:8080/cliente/create/`. Formato do json esperado:
+
     ```
     {
       "name": "nome_do_cliente",
       "email": "email_do_cliente"
     }
     ```
-4. Atualiza informações de um cliente (método PUT)-> `127.0.0.1:8080/cliente/<cliente_id>/update/`. Formato do json esperado:
+    
+4. Atualizar informações de um cliente (método PUT)-> `127.0.0.1:8080/cliente/<cliente_id>/update/`. Formato do json esperado:
+
     ```
     {
       "name": "novo_nome",
       "email: "novo_email"
     }
     ``` 
+    
     (é possível atualizar somente um dos dois atributos também);
-5. Deleta o cliente de id <cliente_id> (método DELETE)-> `127.0.0.1:8080/cliente/<cliente_id>/delete/`;
-6. Exibe lista de produtos favoritos do cliente de id <cliente_id> (método GET) -> `127.0.0.1:8080/cliente/<cliente_id>/favorites-list/` ;
-7. Adiciona um produto à lista de produtos do cliente de id <cliente_id> (método POST) -> `127.0.0.1:8080/cliente/<cliente_id>/favorites-list/create/`. Formato do json esperato:
+    
+5. Deletar o cliente de id <cliente_id> (método DELETE)-> `127.0.0.1:8080/cliente/<cliente_id>/delete/`;
+
+6. Exibir lista de produtos favoritos do cliente de id <cliente_id> (método GET) -> `127.0.0.1:8080/cliente/<cliente_id>/favorites-list/` ;
+
+7. Adicionar um produto à lista de produtos do cliente de id <cliente_id> (método POST) -> `127.0.0.1:8080/cliente/<cliente_id>/favorites-list/create/`. Formato do json esperato:
+
     ```
     {
         "id_product": "product_id_from_challeng_api"
     }
     ```
+    
     (O id do produto deve ser condizente com os produtos da api do desafio técnico da Luiza Labs. Para mais informações, consultar https://gist.github.com/Bgouveia/9e043a3eba439489a35e70d1b5ea08ec );
