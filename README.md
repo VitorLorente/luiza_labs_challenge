@@ -43,7 +43,7 @@ onde `<customer_number>` é um valor inteiro opcional, representando o número d
 ### Servidor
 
 Para subir o servidor, rode o seguinte comando a partir de um shell na raiz do projeto:
-`python manage.py serverup`
+`python manage.py serverup <port_number>`, onde <port_number> é um inteiro representando a porta aberta para receber conexões. O parâmetro <port_number> é opcional, por default a porta utilizada é a 8080.
 
 
 ### URL's
