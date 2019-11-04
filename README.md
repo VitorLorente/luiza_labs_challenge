@@ -49,16 +49,16 @@ Para subir o servidor, rode o seguinte comando a partir de um shell na raiz do p
 ### URL's
 
 As seguintes URL's estão disponiveis:
-1. `127.0.0.1:8080/cliente/` -> Listagem de clientes  (método GET);
-2. `127.0.0.1:8080/cliente/<cliente_id>/` -> Detalhes do cliente de ID <cliente_id> (método GET);
-3. `127.0.0.1:8080/cliente/create/` -> Cria um novo cliente (método POST). Formato do json esperado:
+1. Listagem de clientes  (método GET)-> `127.0.0.1:8080/cliente/` ;
+2. Detalhes do cliente de ID <cliente_id> (método GET)-> `127.0.0.1:8080/cliente/<cliente_id>/` ;
+3. Criar um novo cliente (método POST) -> `127.0.0.1:8080/cliente/create/`. Formato do json esperado:
     ```
     {
       "name": "nome_do_cliente",
       "email": "email_do_cliente"
     }
     ```
-4. `127.0.0.1:8080/cliente/<cliente_id>/update/` -> Atualiza informações de um cliente (método PUT). Formato do json esperado:
+4. Atualiza informações de um cliente (método PUT)-> `127.0.0.1:8080/cliente/<cliente_id>/update/`. Formato do json esperado:
     ```
     {
       "name": "novo_nome",
@@ -66,9 +66,9 @@ As seguintes URL's estão disponiveis:
     }
     ``` 
     (é possível atualizar somente um dos dois atributos também);
-5. `127.0.0.1:8080/cliente/<cliente_id>/delete/` -> Deleta o cliente de id <cliente_id> (método DELETE);
-6. `127.0.0.1:8080/cliente/<cliente_id>/favorites-list/` -> Exibe lista de produtos favoritos do cliente de id <cliente_id> (método GET);
-7. `127.0.0.1:8080/cliente/<cliente_id>/favorites-list/create/` -> Adiciona um produto à lista de produtos do cliente de id <cliente_id> (método POST). Formato do json esperato:
+5. Deleta o cliente de id <cliente_id> (método DELETE)-> `127.0.0.1:8080/cliente/<cliente_id>/delete/`;
+6. Exibe lista de produtos favoritos do cliente de id <cliente_id> (método GET) -> `127.0.0.1:8080/cliente/<cliente_id>/favorites-list/` ;
+7. Adiciona um produto à lista de produtos do cliente de id <cliente_id> (método POST) -> `127.0.0.1:8080/cliente/<cliente_id>/favorites-list/create/`. Formato do json esperato:
     ```
     {
         "id_product": "product_id_from_challeng_api"
